@@ -1,0 +1,21 @@
+body {
+  margin: 0 auto;
+  width: 600px
+}
+
+.page1 {
+  background-color: white;
+}
+
+.cat {
+  background-color: pink;
+}
+
+.cat .content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.cat .content>* {
+  max-width: 100%;
+}

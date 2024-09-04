@@ -1,0 +1,7 @@
+@view-transition {
+  navigation: auto;
+}
+
+img {
+  view-transition-name: img-transition;
+}
