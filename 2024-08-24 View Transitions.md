@@ -44,10 +44,39 @@ https://view-transitions.netlify.app/stack-navigator/mpa-prerender/<!-- element 
 
 --
 
-## Demo
+### Demo
+
+note: 
+1.0. simple view transition
 
 --
 
+--
+## Transitioning Between Elements
+
+TODO
+
+--
+
+### Demo
+
+note:
+1.1. element transitions
+
+--
+
+## Transitioning Between Elements With Javascript
+
+TODO
+
+--
+
+### Demo
+
+note:
+1.2. element transitions with JS
+
+--
 
 ```js [|1|2-3|3-7||1]
 window.addEventListener('pageswap', async (e) => {
@@ -72,6 +101,30 @@ window.addEventListener('pagereveal', async (e) => {
   nextImg.style.viewTransitionName = ""
 })
 ```
+
+--
+## Custom Transitions 
+
+--
+
+## Demo
+
+note:
+2. custom page transition
+
+---
+
+## Client Side View Transitions
+
+--
+
+### Demo
+
+note:
+	1. show off how client side view transitions work in a react app
+	2. BONUS: show how it also works alongside page transitions
+
+
 
 ---
 

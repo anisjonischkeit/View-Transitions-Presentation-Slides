@@ -21,7 +21,7 @@ const App = () => {
     );
   };
 
-  return pageNo ? (
+  return pageNo === 1 ? (
     <div className="page1">
       <h2>Main View</h2>
       <div className="content">
