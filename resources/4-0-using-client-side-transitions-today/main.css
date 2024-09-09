@@ -1,0 +1,12 @@
+body {
+  margin: 0 auto;
+  width: 600px
+}
+
+.page1 {
+  background-color: white;
+}
+
+img {
+  max-width: 100%;
+}
