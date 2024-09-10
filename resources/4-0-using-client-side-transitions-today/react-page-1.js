@@ -1,58 +1,64 @@
 const loremipsum =
   "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit nemo atque dignissimos maxime reprehenderit! Nesciunt totam inventore quibusdam neque, mollitia reiciendis sit dolore aperiam odit cum quaerat voluptatum quam atque.";
 
-const commonStyles = {
-  transition: "opacity 0.5s",
-  gridArea: "a",
-};
-
 const hiddenStyles = {
-  ...commonStyles,
-  opacity: 0,
+  gridArea: "b",
   pointerEvents: "none",
 };
 
 const visibleStyles = {
-  ...commonStyles,
-  opacity: 1,
+  gridArea: "a",
   pointerEvents: "unset",
 };
 
-const containerStyles = { 
+const initialContainerStyles = { 
+  width: "200%",
+  transition: "transform 0.5s",
   display: "grid", 
-  gridTemplateAreas: "a" 
+  gridTemplateAreas: '"a b"' 
 };
 
 const navCtx = React.createContext();
 
 const Navigator = ({ pages }) => {
+  const [containerStyles, setContainerStyles] = React.useState(initialContainerStyles);
   const [navigator, setNavigator] = React.useState({
     visibleContainer: 0,
     containers: ["/", "/"],
   });
 
   const navigate = (page) => {
-    setNavigator((prevNav) => {
-      const newNav = {
-        ...prevNav,
-        visibleContainer: prevNav.visibleContainer === 0 ? 1 : 0,
-      };
-      newNav.containers[newNav.visibleContainer] = page;
+    ReactDOM.flushSync(() => { 
+      setContainerStyles((prevStyles) => {
+        return {...prevStyles, transition: "none",  transform: "translateX(-50%)"}
+      })
 
-      return newNav;
+      setNavigator((prevNav) => {
+        const newNav = {
+          ...prevNav,
+          visibleContainer: prevNav.visibleContainer === 0 ? 1 : 0,
+        };
+        newNav.containers[newNav.visibleContainer] = page;
+
+        return newNav;
+      });
     });
+   
+    requestAnimationFrame(() => {
+      setContainerStyles(initialContainerStyles)
+    })
   };
 
   return (
     <navCtx.Provider value={{ navigate }}>
-      <button onClick={() => navigate("/page2")}> Go to Page 2 </button>
-      <button onClick={() => navigate("/")}> Go to / </button>
-      <div style={containerStyles}>
-        <div style={ navigator.visibleContainer === 0 ? visibleStyles : hiddenStyles } >
-          {pages[navigator.containers[0]]}
-        </div>
-        <div style={ navigator.visibleContainer === 1 ? visibleStyles : hiddenStyles } >
-          {pages[navigator.containers[1]]}
+      <div style={{width: "100%", overflow: "hidden"}}>
+        <div style={containerStyles}>
+          <div style={ navigator.visibleContainer === 0 ? visibleStyles : hiddenStyles } >
+            {pages[navigator.containers[0]]}
+          </div>
+          <div style={ navigator.visibleContainer === 1 ? visibleStyles : hiddenStyles } >
+            {pages[navigator.containers[1]]}
+          </div>
         </div>
       </div>
     </navCtx.Provider>
